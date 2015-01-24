@@ -56,8 +56,9 @@ d3.json('static/hive.json', function(error,data){
 	    .style("stroke-width", function(d) { return outscaleL(Math.pow(inscaleL(d.count),2))});
 
 	var inscale = d3.scale.linear().domain(d3.extent(nodes,function(d) {return d.sz;})).range([0,1])
-	var outscale = d3.scale.linear().domain([0,1]).range([4,30]);
-
+	var outscale = d3.scale.linear().domain([0,1]).range([6,16]);
+    var outscaleD = d3.scale.linear().domain([0,1]).range([6,10]);
+    
 	svg.selectAll(".node")
 	    .data(nodes)
 	  .enter().append("circle")
@@ -66,20 +67,46 @@ d3.json('static/hive.json', function(error,data){
 	    .attr("cx", function(d) { return radius(d.y); })
 	    .attr("r", function(d){
 	    	var factor = .5;
-	    	
+
+            var os = outscale;
 	    	if(d.x == 0){
-		    	factor = .4;
+		    	factor = .1;
 	    	}else if(d.x == 1){
 	    		factor = .2;
 	    	}else if(d.x == 2){
-		    	factor = .1;	
+		    	factor = .1;
+                os = outscaleD;
 	    	};
 
-	    	return outscale(Math.pow(inscale(d.sz),factor));
+            
+
+	    	return os(Math.pow(inscale(d.sz),factor));
 
 	    })
         .on("mouseover",function(d) {
-                infotext.text(d.name + "\n" + d.sz);
+                
+                d3.select(this).attr("stroke","green").attr("stroke-width","4");
+                
+                infotext.selectAll("tspan").remove();
+                infotext.append("tspan").attr("x",0).text(d.name);
+                infotext.append("tspan").attr("x",0).attr("dy",20).text(d.sz);
+
+                var bbox = infotext.node().getBBox();
+                var padding = 10;
+                textrect = svg.insert("rect", "text")
+                    .attr("x", bbox.x - padding)
+                    .attr("y", bbox.y - padding)
+                    .attr("width", bbox.width + (padding*2))
+                    .attr("height", bbox.height + (padding*2))
+                    .style("fill", "red");
+            })
+        .on("mouseout",function(d) {
+
+                d3.select(this).attr("stroke","green").attr("stroke-width","0");
+                
+                infotext.selectAll("tspan").remove();
+                
+                textrect.remove();
             })
 	    .style("fill", function(d) { return color('#00f'); });
 
