@@ -1,6 +1,7 @@
 import os
 import sys
 from webapp import db,app
+from models.datamodels import *
 
 def create_db_entries():
 
