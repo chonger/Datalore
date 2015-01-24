@@ -1,0 +1,32 @@
+body{
+	margin:0;
+	padding: 0;
+}
+
+.main{
+	margin:0,auto;
+	width: 1200px;
+	display: box;
+	position: relative;
+}
+.link {
+  fill: none;
+  
+}
+
+.axis{
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+.node{
+	stroke:none;
+
+}
+
+#chart_1{
+	width: 100%;
+	height: 800px;
+	display: block;
+	background-color: #fff;
+}
