@@ -14,8 +14,26 @@ d3.json('static/hive.json', function(error,data){
 	    .attr("width", width)
 	    .attr("height", height)
 	  .append("g")
-	    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+	    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(.1)rotate(0)");
+    
+    svg.transition().duration(1000)
+        .attrTween("transform", rotTween);
 
+    function rotTween() {
+        var i = d3.interpolate(0, 360);
+        return function(t) {
+            return "translate(" + width / 2 + "," + height / 2 + ")scale(" + (i(t) / 360.0) + ")rotate(" + i(t) + ")";
+        };
+    }
+
+    var infowidth=350,
+        infoheight=350;
+    
+    var infotext = svg.append("text")
+        .attr("text-anchor","middle")
+        .attr("dy", ".35em")
+
+    
 	svg.selectAll(".axis")
 	    .data(d3.range(3))
 	  .enter().append("line")
@@ -40,8 +58,6 @@ d3.json('static/hive.json', function(error,data){
 	var inscale = d3.scale.linear().domain(d3.extent(nodes,function(d) {return d.sz;})).range([0,1])
 	var outscale = d3.scale.linear().domain([0,1]).range([4,30]);
 
-
-
 	svg.selectAll(".node")
 	    .data(nodes)
 	  .enter().append("circle")
@@ -62,6 +78,9 @@ d3.json('static/hive.json', function(error,data){
 	    	return outscale(Math.pow(inscale(d.sz),factor));
 
 	    })
+        .on("mouseover",function(d) {
+                infotext.text(d.name + "\n" + d.sz);
+            })
 	    .style("fill", function(d) { return color('#00f'); });
 
 	function degrees(radians) {
