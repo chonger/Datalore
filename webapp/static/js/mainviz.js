@@ -31,8 +31,10 @@ d3.json('static/hive.json', function(error,data){
     
     var infotext = svg.append("text")
         .attr("text-anchor","middle")
-        .attr("dy", ".35em")
+        .attr("dy", ".35em");
 
+    var selcur = null;
+    var seld = null;
     
 	svg.selectAll(".axis")
 	    .data(d3.range(3))
@@ -84,8 +86,8 @@ d3.json('static/hive.json', function(error,data){
 
 	    })
         .on("mouseover",function(d) {
-                
-                d3.select(this).attr("stroke","green").attr("stroke-width","4");
+
+                d3.select(this).style("stroke","green").style("stroke-width","4");
                 
                 infotext.selectAll("tspan").remove();
                 infotext.append("tspan").attr("x",0).text(d.name);
@@ -102,11 +104,44 @@ d3.json('static/hive.json', function(error,data){
             })
         .on("mouseout",function(d) {
 
-                d3.select(this).attr("stroke","green").attr("stroke-width","0");
+                d3.select(this).style("stroke","green").style("stroke-width","0");
                 
                 infotext.selectAll("tspan").remove();
                 
                 textrect.remove();
+            })
+        .on("click",function(d) {
+
+                if(selcur != null) {
+                    selcur.style("fill",color("#00f"));
+
+                    if(seld == d) {
+                        svg.selectAll(".link").transition().duration(300)
+                            .style("opacity",1.0);
+                        selcur = null;
+                        return;
+                    }
+                } 
+                selcur = d3.select(this);
+                seld = d;
+                selcur.style("fill","#f00");
+
+                var curX = d.x;
+                var curY = d.y;
+
+                
+                
+                svg.selectAll(".link").transition().duration(300)
+                    .style("opacity", function(d) {
+
+                            if ((d.source.x == curX && d.source.y == curY) ||
+                                (d.target.x == curX && d.target.y == curY))
+                                return 1.0;
+                            else
+                                return 0;
+                        })
+                    
+
             })
 	    .style("fill", function(d) { return color('#00f'); });
 
