@@ -88,27 +88,70 @@ d3.json('static/hive.json', function(error,data){
         .on("mouseover",function(d) {
 
                 d3.select(this).style("stroke","green").style("stroke-width","4");
-                
-                infotext.selectAll("tspan").remove();
-                infotext.append("tspan").attr("x",0).text(d.name);
-                infotext.append("tspan").attr("x",0).attr("dy",20).text(d.sz);
 
-                var bbox = infotext.node().getBBox();
-                var padding = 10;
-                textrect = svg.insert("rect", "text")
-                    .attr("x", bbox.x - padding)
-                    .attr("y", bbox.y - padding)
-                    .attr("width", bbox.width + (padding*2))
-                    .attr("height", bbox.height + (padding*2))
-                    .style("fill", "red");
+                if(selcur != null) {
+
+                    var count = 0;
+                    
+                    var curX = seld.x;
+                    var curY = seld.y;
+
+                    //is there a link here?
+
+                    links.forEach(function(l) {
+                            if(l.source.x == curX && l.source.y == curY &&
+                               l.target.x == d.x && l.target.y == d.y) {
+                                count = l.count;
+                                console.log("Found " + count);
+                            }
+                        });
+
+                    infotext.append("tspan").attr("x",0).attr("dy",20).text("Shared with " + d.name).attr("class","extratext");
+                    infotext.append("tspan").attr("x",0).attr("dy",20).text(count).attr("class","extratext");
+                    
+                    var bbox = infotext.node().getBBox();
+                    var padding = 10;
+                    textrect = svg.insert("rect", "text")
+                        .attr("x", bbox.x - padding)
+                        .attr("y", bbox.y - padding)
+                        .attr("width", bbox.width + (padding*2))
+                        .attr("height", bbox.height + (padding*2))
+                        .style("fill", "red");
+
+                } else {
+                
+                    infotext.selectAll("tspan").remove();
+                    infotext.append("tspan").attr("x",0).text(d.name);
+                    infotext.append("tspan").attr("x",0).attr("dy",20).text(d.sz);
+                    
+                    var bbox = infotext.node().getBBox();
+                    var padding = 10;
+                    textrect = svg.insert("rect", "text")
+                        .attr("x", bbox.x - padding)
+                        .attr("y", bbox.y - padding)
+                        .attr("width", bbox.width + (padding*2))
+                        .attr("height", bbox.height + (padding*2))
+                        .style("fill", "red");
+                }
             })
         .on("mouseout",function(d) {
 
                 d3.select(this).style("stroke","green").style("stroke-width","0");
-                
-                infotext.selectAll("tspan").remove();
-                
-                textrect.remove();
+
+                if(selcur == null) {
+                    infotext.selectAll("tspan").remove();
+                    textrect.remove();
+                } else {
+                    svg.selectAll(".extratext").remove();
+                    var bbox = infotext.node().getBBox();
+                    var padding = 10;
+                    textrect = svg.insert("rect", "text")
+                        .attr("x", bbox.x - padding)
+                        .attr("y", bbox.y - padding)
+                        .attr("width", bbox.width + (padding*2))
+                        .attr("height", bbox.height + (padding*2))
+                        .style("fill", "red");
+                }
             })
         .on("click",function(d) {
 
@@ -129,8 +172,6 @@ d3.json('static/hive.json', function(error,data){
                 var curX = d.x;
                 var curY = d.y;
 
-                
-                
                 svg.selectAll(".link").transition().duration(300)
                     .style("opacity", function(d) {
 
