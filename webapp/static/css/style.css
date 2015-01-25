@@ -44,9 +44,21 @@ h3{
 
 p {
     margin: 0 0 25px;
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 300;
+    font-family:font-family: DINpro,Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.5;
+}
+
+.navbar-brand span{
+    margin: 0 0 25px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
+}
+
+.navbar-brand{
+    width: 800px;
 }
 
 @media(min-width:767px) {

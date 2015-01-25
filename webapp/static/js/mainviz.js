@@ -49,7 +49,7 @@ d3.json('static/hive.json', function(error,data){
     outerRadius = 350;
 
     var axis_colors = ["rgb(118, 249, 239)","rgb(135, 56, 233)","rgb(9, 201, 255)"];
-    var exc = "#aaf";
+    var exc = "rgba(255,255,255,0.3)";
     
 	var angle = d3.scale.ordinal().domain(d3.range(4)).rangePoints([0, 2 * Math.PI]),
 	    radius = d3.scale.linear().range([innerRadius, outerRadius]),
@@ -87,10 +87,12 @@ d3.json('static/hive.json', function(error,data){
     
     svg2.append("circle")
         .attr("r",iris_rad)
-        .style("fill", "white");
+        .style("fill", "#fff")
+        .style("stroke", "none")
+        .style("fill-opacity", "0.1");
 
     svg2.append("circle").attr("fill",exc).attr("id","pupil").attr("r",0);
-    svg2.append("text").attr("dy",10).attr("fill","black").attr("text-anchor","middle").attr("id","acount").text("0").style("opacity",0).style("font-size",35);
+    svg2.append("text").attr("dy",20).attr("fill","#fff").attr("text-anchor","middle").attr("id","acount").text("0").style("opacity",0).style("font-size",60);
     
     var infotext = svg2.append("text")
         .attr("text-anchor","middle");
@@ -227,7 +229,7 @@ d3.json('static/hive.json', function(error,data){
                     .style("stroke", function(d) {
                             if ((d.source.x == curX && d.source.y == curY) ||
                                 (d.target.x == curX && d.target.y == curY))
-                                return "#f00";
+                                return "#fff";
                             else
                                 return "#ccc";
                         })
@@ -248,7 +250,7 @@ d3.json('static/hive.json', function(error,data){
         infotext = svg2.append("text")
             .attr("text-anchor","middle");
 
-        var label = infotext.append("tspan").attr("id","sellabel").attr("x",0).attr("dy",-120).style("fill","white").style("font-size",20).text(d.name);
+        var label = infotext.append("tspan").attr("id","sellabel").attr("x",0).attr("dy",-120).style("fill","#fff").style("font-size",18).text(d.name);
 
         var cur = parseInt(d3.select("#acount").text());
 
@@ -260,19 +262,20 @@ d3.json('static/hive.json', function(error,data){
                     this.textContent = Math.round(i(t));
                 };
             });
-        
+        d3.select("#pupil").transition().duration(200).attr("r",0);
+
     }
 
     function set_extra_info(d,count) {
         
-        infotext.append("tspan").attr("x",0).attr("dy",250).style("fill",exc).text(d.name).style("font-size",18).attr("class","extratext");
+        infotext.append("tspan").attr("x",0).attr("dy",260).style("fill","#fff").text(d.name).style("font-size",18).style("font-weight",300).attr("class","extratext");
 
         console.log(seld.sz-count);
         console.log(seld);
 
         var irisscale = d3.scale.linear().domain([0,seld.sz]).range([30,iris_rad]);
         
-        d3.select("#pupil").transition().duration(200).attr("r",irisscale(count));
+        d3.select("#pupil").transition().duration(200).attr("r",irisscale(count)).text(d.name);
 
         var cur = parseInt(d3.select("#acount").text());
 
