@@ -28,8 +28,8 @@ svgChord.append("circle")
     .attr("r", cOuterRadius)
     .attr("fill","#032139");
 
-d3.csv("../departments.csv", function(cities) {
-  d3.json("../academic_department_chord.json", function(matrix) {
+d3.csv("static/departments.csv", function(cities) {
+  d3.json("static/academic_department_chord.json", function(matrix) {
 
     // Compute the chord layout.
     layout.matrix(matrix);
