@@ -1,5 +1,29 @@
 d3.json('static/hive.json', function(error,data){
 
+
+        var linfo = {
+            'MIT Amendment':"A product of the 2009 Faculty Open Access Policy. This indicates that an amendment has been submitted to the publisher along with the article declaring that, “MIT may make the Article available, and may exercise any and all rights under copyright relating thereto, in any medium, provided that the Article is not sold for a profit, and may authorize others to do the same.” Like the Open Access Policy, it also indicates that a copy of the article has been made available to DSpace@MIT at no charge.", 
+            'Model Agreement': "Creative Commons Attribution-Noncommercial-Share Alike license.",            
+            'Open Access Policy': "Indicates the faculty member has made an electronic copy of the final version of his or her article available to DSpace@MIT at no charge. Unlike with the MIT Amendment, it is unclear whether or not an official amendment was submitted to a publisher. This could also be used for un-published work.",
+            'Publisher Creative Commons': "Deferment has been made to a publisher established Creative Commons Agreement.", 
+            'Publisher Policy': "The publisher’s copyright statement may indicate that the article’s copyright was transferred by the author(s) to the publisher, or that the author used a template provided by the publisher in expectation of copyright being transferred.",
+            'Springer Faculty': "Any article or book chapter written by a MIT faculty member and published in a Springer journal or book in the period of 2009 through 2015 may be archived and/or deposited in any repository, or used for any scholarly or educational purposes. These papers represent final submitted manuscripts; including peer review changes, but not copy-editing or formatting by Springer.",
+            'Springer Other': "Any article or book chapter written by a non-faculty MIT author and published in a Springer journal or book in the period of 2009 through 2015 may be archived and/or deposited in any repository, or used for any scholarly or educational purposes. These papers represent final submitted manuscripts; including peer review changes, but not copy-editing or formatting by Springer.", 
+            'Wiley Amendment': "Indicates that authors are required to opt out."
+        }
+
+        var lname = {
+            'MIT_AMENDMENT':'MIT Amendment',
+            'MODEL_AGREEMENT':'Model Agreement',
+            'OPEN_ACCESS_POLICY':'Open Access Policy',
+            'PUBLISHER_CC':'Publisher Creative Commons',
+            'PUBLISHER_POLICY':'Publisher Policy',
+            'SPRINGER_FACULTY':'Springer Faculty',
+            'SPRINGER_OTHER':'Springer Other',
+            'WILEY_AMENDMENT':'Wiley Amendment'
+        }
+
+
         
     var nodes=data['nodes'];
 	var links=data['links'];
@@ -8,6 +32,11 @@ d3.json('static/hive.json', function(error,data){
 
         var n = nodes[i].name;
 
+        if(n in lname) {
+            nodes[i].name = lname[n];
+        }
+
+        
         console.log(n);
         if(n == 'Department of Electrical Engineering and Computer Science') {
             nodes[i].name = "EECS";
@@ -158,7 +187,7 @@ d3.json('static/hive.json', function(error,data){
 
                 if(d.x == 0) {
                     console.log(d3.select("#chart_1_info"));
-                    d3.select("#chart_1_info").text(d.name + " - Lorem ipsum dolor sit amet, iste sapien, aliquam porttitor ipsum nulla feugiat blandit at. Cursus fermentum consectetuer metus, vulputate magna nec sit integer fringilla, quam vitae sollicitudin vivamus, sem vitae, tincidunt lacus ut. Vulputate non a netus elit. Sollicitudin mattis potenti leo.").transition().duration(300).style("opacity",1.0);
+                    d3.select("#chart_1_info").text(d.name + " - " + linfo[d.name]).transition().duration(300).style("opacity",1.0);
 
                 }
                 
