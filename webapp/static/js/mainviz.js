@@ -1,14 +1,16 @@
 d3.json('static/hive.json', function(error,data){
 
+        
     var nodes=data['nodes'];
 	var links=data['links'];
 
     var width = 720,
     height = 720,
-    innerRadius = 180,
+    innerRadius = 200,
     outerRadius = 350;
 
-    var axis_colors = ["#f00","#0f0","#00f"];
+    var axis_colors = ["rgba(118, 249, 239,0.8)","rgba(135, 56, 233,0.8)","rgba(9, 201, 255,0.8)"];
+
     
 	var angle = d3.scale.ordinal().domain(d3.range(4)).rangePoints([0, 2 * Math.PI]),
 	    radius = d3.scale.linear().range([innerRadius, outerRadius]),
@@ -29,6 +31,17 @@ d3.json('static/hive.json', function(error,data){
             return "translate(" + width / 2 + "," + height / 2 + ")scale(" + (i(t) / 360.0) + ")rotate(" + i(t) + ")";
         };
     }
+
+
+    /**
+     *
+     *  LABELS
+     *
+     */
+
+    var polL = svg.append("text").attr("dx",-150).attr("dy",-335).style("fill",axis_colors[0]).attr("font-size",30).text("License");
+    var yearL = svg.append("text").attr("dx",270).attr("dy",270).style("fill",axis_colors[1]).attr("font-size",30).text("Year");
+    var deptL = svg.append("text").attr("dx",-360).attr("dy",270).style("fill",axis_colors[2]).attr("font-size",30).text("Department");
 
 
     var pie = d3.layout.pie()
@@ -205,16 +218,16 @@ d3.json('static/hive.json', function(error,data){
         infotext = svg2.append("text")
             .attr("text-anchor","middle");
 
-        infotext.append("tspan").attr("x",0).attr("dy",-120).style("fill","white").text(d.name);
-        infotext.append("tspan").attr("x",0).attr("dy",120).style("fill","black").text(d.sz);
-
+        var label = infotext.append("tspan").attr("id","sellabel").attr("x",0).attr("dy",-120).style("fill","white").style("font-size",20).text(d.name);
+        infotext.append("tspan").attr("x",0).attr("dy",130).style("fill","black").style("font-size",35).text(d.sz);
+        
     }
 
     function set_extra_info(d,count) {
 
-        var exc = "#f00"
+        var exc = "#aaf"
         
-        infotext.append("tspan").attr("x",0).attr("dy",120).style("fill",exc).text(d.name).attr("class","extratext");
+        infotext.append("tspan").attr("x",0).attr("dy",70).style("fill",exc).text(d.name).style("font-size",18).style("fill","white").attr("class","extratext");
 
         console.log(seld.sz-count);
         console.log(seld);
