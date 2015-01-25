@@ -1,10 +1,10 @@
 d3.json('static/hive.json', function(error,data){
 	var nodes=data['nodes'];
 	var links=data['links'];
-	var width = 1200,
-    height = 1200,
-    innerRadius = 200,
-    outerRadius = 540;
+	var width = 720,
+    height = 720,
+    innerRadius = 180,
+    outerRadius = 350;
 
 	var angle = d3.scale.ordinal().domain(d3.range(4)).rangePoints([0, 2 * Math.PI]),
 	    radius = d3.scale.linear().range([innerRadius, outerRadius]),
@@ -75,7 +75,7 @@ d3.json('static/hive.json', function(error,data){
 	    .attr("d", d3.hive.link()
 	    .angle(function(d) { return angle(d.x); })
 	    .radius(function(d) { return radius(d.y); }))
-	    .style("stroke", function(d) { return color("rgb(245,0,0,0.01)"); })
+	    .style("stroke", function(d) { return color("#fff"); })
 	    .style("stroke-width", function(d) { return outscaleL(Math.pow(inscaleL(d.count),2))});
 
 	var inscale = d3.scale.linear().domain(d3.extent(nodes,function(d) {return d.sz;})).range([0,1])
@@ -155,13 +155,14 @@ d3.json('static/hive.json', function(error,data){
         .on("click",function(d) {
 
                 if(selcur != null) {
-                    selcur.style("fill",color("#00f"));
+                    
+                    selcur.style("fill",color("rgba(255,255,255,0.5)"));
 
                     set_main_info(d);
                     
                     if(seld == d) {
                         svg.selectAll(".link").transition().duration(300)
-                            .style("opacity",1.0).style("stroke",color("rgb(245,0,0,0.01)"));
+                            .style("opacity",1.0).style("stroke",color("rgba(255,255,255,0.01)"));
                         selcur = null;
                         return;
                     }
@@ -184,7 +185,7 @@ d3.json('static/hive.json', function(error,data){
                     .style("stroke", function(d) {
                             if ((d.source.x == curX && d.source.y == curY) ||
                                 (d.target.x == curX && d.target.y == curY))
-                                return "#ffd700";
+                                return "#f00";
                             else
                                 return "#ccc";
                         })
@@ -276,7 +277,7 @@ d3.json('static/hive.json', function(error,data){
             .attr("y", bbox.y - padding)
             .attr("width", bbox.width + (padding*2))
             .attr("height", bbox.height + (padding*2))
-            .style("fill", "white");
+            .style("fill", "#ccc");
     }
 
     
