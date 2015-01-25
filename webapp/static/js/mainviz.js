@@ -3,7 +3,7 @@ d3.json('static/hive.json', function(error,data){
 	var links=data['links'];
 	var width = 1200,
     height = 1200,
-    innerRadius = 300,
+    innerRadius = 200,
     outerRadius = 540;
 
 	var angle = d3.scale.ordinal().domain(d3.range(4)).rangePoints([0, 2 * Math.PI]),
@@ -28,13 +28,34 @@ d3.json('static/hive.json', function(error,data){
 
     var infowidth=350,
         infoheight=350;
-    
-    var infotext = svg.append("text")
-        .attr("text-anchor","middle")
-        .attr("dy", ".35em");
 
+    var pie = d3.layout.pie()
+        .sort(null)
+        .value(function(d) { return d.value; });
+
+    var arc = d3.svg.arc()
+        .outerRadius(innerRadius-100)
+        .innerRadius(0);
+
+    var svg2 = svg.append("g");
+    
+    var piechart = svg2.selectAll(".parc")
+        .data(pie([{value:1}]))
+        .enter().append("g")
+        .attr("class", "parc");
+
+    piechart.append("path")
+        .attr("d", arc)
+        .style("fill", "white");
+
+
+    
+    var infotext = svg2.append("text")
+        .attr("text-anchor","middle");
+        
     var selcur = null;
     var seld = null;
+    var textrect = null;
     
 	svg.selectAll(".axis")
 	    .data(d3.range(3))
@@ -45,7 +66,7 @@ d3.json('static/hive.json', function(error,data){
 	    .attr("x2", radius.range()[1]);
 
 	var inscaleL = d3.scale.linear().domain(d3.extent(links,function(d) {return d.count;})).range([0,1])
-	var outscaleL = d3.scale.linear().domain([0,1]).range([0.2,14]);
+	var outscaleL = d3.scale.linear().domain([0,1]).range([3,30]);
 
 	svg.selectAll(".link")
 	    .data(links)
@@ -58,8 +79,8 @@ d3.json('static/hive.json', function(error,data){
 	    .style("stroke-width", function(d) { return outscaleL(Math.pow(inscaleL(d.count),2))});
 
 	var inscale = d3.scale.linear().domain(d3.extent(nodes,function(d) {return d.sz;})).range([0,1])
-	var outscale = d3.scale.linear().domain([0,1]).range([6,16]);
-    var outscaleD = d3.scale.linear().domain([0,1]).range([6,10]);
+	var outscale = d3.scale.linear().domain([0,1]).range([6,24]);
+    var outscaleD = d3.scale.linear().domain([0,1]).range([6,20]);
     
 	svg.selectAll(".node")
 	    .data(nodes)
@@ -87,7 +108,7 @@ d3.json('static/hive.json', function(error,data){
 	    })
         .on("mouseover",function(d) {
 
-                d3.select(this).style("stroke","green").style("stroke-width","4");
+                d3.select(this).style("stroke","white").style("stroke-width","4");
 
                 if(selcur != null) {
 
@@ -96,61 +117,39 @@ d3.json('static/hive.json', function(error,data){
                     var curX = seld.x;
                     var curY = seld.y;
 
+                    if(curX == d.x)
+                        return;
+                    
                     //is there a link here?
 
                     links.forEach(function(l) {
                             if(l.source.x == curX && l.source.y == curY &&
                                l.target.x == d.x && l.target.y == d.y) {
                                 count = l.count;
-                                console.log("Found " + count);
+                             
+                            }
+                            if(l.source.x == d.x && l.source.y == d.y &&
+                               l.target.x == curX && l.target.y == curY) {
+                                count = l.count;
+                             
                             }
                         });
 
-                    infotext.append("tspan").attr("x",0).attr("dy",20).text("Shared with " + d.name).attr("class","extratext");
-                    infotext.append("tspan").attr("x",0).attr("dy",20).text(count).attr("class","extratext");
+                    set_extra_info(d,count);
                     
-                    var bbox = infotext.node().getBBox();
-                    var padding = 10;
-                    textrect = svg.insert("rect", "text")
-                        .attr("x", bbox.x - padding)
-                        .attr("y", bbox.y - padding)
-                        .attr("width", bbox.width + (padding*2))
-                        .attr("height", bbox.height + (padding*2))
-                        .style("fill", "red");
 
                 } else {
-                
-                    infotext.selectAll("tspan").remove();
-                    infotext.append("tspan").attr("x",0).text(d.name);
-                    infotext.append("tspan").attr("x",0).attr("dy",20).text(d.sz);
-                    
-                    var bbox = infotext.node().getBBox();
-                    var padding = 10;
-                    textrect = svg.insert("rect", "text")
-                        .attr("x", bbox.x - padding)
-                        .attr("y", bbox.y - padding)
-                        .attr("width", bbox.width + (padding*2))
-                        .attr("height", bbox.height + (padding*2))
-                        .style("fill", "red");
+                    set_main_info(d);
                 }
             })
         .on("mouseout",function(d) {
 
-                d3.select(this).style("stroke","green").style("stroke-width","0");
+                d3.select(this).style("stroke-width","0");
 
                 if(selcur == null) {
-                    infotext.selectAll("tspan").remove();
-                    textrect.remove();
+                    remove_info();
                 } else {
-                    svg.selectAll(".extratext").remove();
-                    var bbox = infotext.node().getBBox();
-                    var padding = 10;
-                    textrect = svg.insert("rect", "text")
-                        .attr("x", bbox.x - padding)
-                        .attr("y", bbox.y - padding)
-                        .attr("width", bbox.width + (padding*2))
-                        .attr("height", bbox.height + (padding*2))
-                        .style("fill", "red");
+                    remove_extra();
                 }
             })
         .on("click",function(d) {
@@ -158,9 +157,11 @@ d3.json('static/hive.json', function(error,data){
                 if(selcur != null) {
                     selcur.style("fill",color("#00f"));
 
+                    set_main_info(d);
+                    
                     if(seld == d) {
                         svg.selectAll(".link").transition().duration(300)
-                            .style("opacity",1.0);
+                            .style("opacity",1.0).style("stroke",color("rgb(245,0,0,0.01)"));
                         selcur = null;
                         return;
                     }
@@ -174,12 +175,18 @@ d3.json('static/hive.json', function(error,data){
 
                 svg.selectAll(".link").transition().duration(300)
                     .style("opacity", function(d) {
-
                             if ((d.source.x == curX && d.source.y == curY) ||
                                 (d.target.x == curX && d.target.y == curY))
                                 return 1.0;
                             else
-                                return 0;
+                                return .2;
+                        })
+                    .style("stroke", function(d) {
+                            if ((d.source.x == curX && d.source.y == curY) ||
+                                (d.target.x == curX && d.target.y == curY))
+                                return "#ffd700";
+                            else
+                                return "#ccc";
                         })
                     
 
@@ -190,4 +197,87 @@ d3.json('static/hive.json', function(error,data){
 	  return radians / Math.PI * 180 - 90;
 	};
 
+    function set_main_info(d) {
+
+        infotext.remove();
+        
+        infotext = svg2.append("text")
+            .attr("text-anchor","middle");
+
+        infotext.append("tspan").attr("x",0).attr("dy",-120).style("fill","white").text(d.name);
+        infotext.append("tspan").attr("x",0).attr("dy",120).style("fill","black").text(d.sz);
+
+    }
+
+    function set_extra_info(d,count) {
+
+        var exc = "#aae"
+        
+        infotext.append("tspan").attr("x",0).attr("dy",120).style("fill",exc).text(d.name).attr("class","extratext");
+
+        console.log(seld.sz-count);
+        console.log(seld);
+        var newdata = [{'value':seld.sz-count,'color':'white'},{'value':count, 'color':exc}];
+
+        svg2.selectAll(".parc").remove();
+        
+        var piechart = svg2.selectAll(".parc")
+            .data(pie(newdata))
+            .enter().append("g")
+            .attr("class", "parc");
+
+        piechart.append("path")
+            .attr("d", arc)
+            .style("fill", function(d) {
+                    return d.data.color;
+                });
+
+        piechart.append("text")
+            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text(function(d) { return d.data.value; });
+        
+
+    }
+
+    function remove_extra() {
+
+
+        
+        svg2.selectAll(".parc").remove();
+        
+        var piechart = svg2.selectAll(".parc")
+            .data(pie([{'value':seld.sz}]))
+            .enter().append("g")
+            .attr("class", "parc");
+
+        piechart.append("path")
+            .attr("d", arc)
+            .style("fill", 'white');
+
+        set_main_info(seld);
+    }
+
+    function remove_info() {
+        infotext.selectAll("tspan").remove();
+
+    }
+    
+    function make_textrect() {
+        
+        if(textrect)
+            textrect.remove();
+
+        var bbox = infotext.node().getBBox();
+        var padding = 10;
+        textrect = svg.insert("rect", "text")
+            .attr("x", bbox.x - padding)
+            .attr("y", bbox.y - padding)
+            .attr("width", bbox.width + (padding*2))
+            .attr("height", bbox.height + (padding*2))
+            .style("fill", "white");
+    }
+
+    
 	});
