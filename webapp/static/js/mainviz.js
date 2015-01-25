@@ -140,9 +140,9 @@ d3.json('static/hive.json', function(error,data){
 	var inscaleL = d3.scale.linear().domain(d3.extent(links,function(d) {return d.count;})).range([0,1])
 	var outscaleL = d3.scale.linear().domain([0,1]).range([3,30]);
 
-    d3.select("#chart_1_info").style("width",200).style("background","#ccc")
-        .style("color","black").style("padding",7)
-        .style("opacity",0).style("position","absolute");
+    // d3.select("#chart_1_info").style("width",200).style("background","#ccc")
+    //     .style("color","black").style("padding",7)
+    //     .style("opacity",0).style("position","absolute");
     
 	svg.selectAll(".link")
 	    .data(links)
