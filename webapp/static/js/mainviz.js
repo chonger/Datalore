@@ -75,8 +75,10 @@ d3.json('static/hive.json', function(error,data){
 	    .attr("d", d3.hive.link()
 	    .angle(function(d) { return angle(d.x); })
 	    .radius(function(d) { return radius(d.y); }))
-	    .style("stroke", function(d) { return color("#fff"); })
-	    .style("stroke-width", function(d) { return outscaleL(Math.pow(inscaleL(d.count),2))});
+	    // .style("stroke", function(d) { return color("#fff"); })/--effy--/
+        .style("stroke", "#fff")
+	    // .style("stroke-width", function(d) { return outscaleL(Math.pow(inscaleL(d.count),2))});/--effy--/
+        .style("stroke-width","0.5");
 
 	var inscale = d3.scale.linear().domain(d3.extent(nodes,function(d) {return d.sz;})).range([0,1])
 	var outscale = d3.scale.linear().domain([0,1]).range([6,24]);
@@ -93,11 +95,11 @@ d3.json('static/hive.json', function(error,data){
 
             var os = outscale;
 	    	if(d.x == 0){
-		    	factor = .1;
+		    	factor = .3;
 	    	}else if(d.x == 1){
-	    		factor = .2;
+	    		factor = .5;
 	    	}else if(d.x == 2){
-		    	factor = .1;
+		    	factor = .9;
                 os = outscaleD;
 	    	};
 
@@ -108,7 +110,7 @@ d3.json('static/hive.json', function(error,data){
 	    })
         .on("mouseover",function(d) {
 
-                d3.select(this).style("stroke","white").style("stroke-width","4");
+                d3.select(this).style("stroke","#fff").style("stroke-width","2");
 
                 if(selcur != null) {
 
@@ -212,7 +214,7 @@ d3.json('static/hive.json', function(error,data){
 
     function set_extra_info(d,count) {
 
-        var exc = "#aae"
+        var exc = "#f00"
         
         infotext.append("tspan").attr("x",0).attr("dy",120).style("fill",exc).text(d.name).attr("class","extratext");
 
