@@ -71,7 +71,7 @@ function groupTicks(d) {
   return d3.range(0, d.value, 1000).map(function(v, i) {
     return {
       angle: v * k + d.startAngle,
-      label: i % 5 ? null : v
+      label: i % 5 ? null : v 
     };
   });
 }
