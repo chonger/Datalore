@@ -1,11 +1,15 @@
 d3.json('static/hive.json', function(error,data){
-	var nodes=data['nodes'];
+
+    var nodes=data['nodes'];
 	var links=data['links'];
-	var width = 720,
+
+    var width = 720,
     height = 720,
     innerRadius = 180,
     outerRadius = 350;
 
+    var axis_colors = ["#f00","#0f0","#00f"];
+    
 	var angle = d3.scale.ordinal().domain(d3.range(4)).rangePoints([0, 2 * Math.PI]),
 	    radius = d3.scale.linear().range([innerRadius, outerRadius]),
 	    color = d3.scale.category10().domain(d3.range(20));
@@ -26,8 +30,6 @@ d3.json('static/hive.json', function(error,data){
         };
     }
 
-    var infowidth=350,
-        infoheight=350;
 
     var pie = d3.layout.pie()
         .sort(null)
@@ -47,15 +49,12 @@ d3.json('static/hive.json', function(error,data){
     piechart.append("path")
         .attr("d", arc)
         .style("fill", "white");
-
-
     
     var infotext = svg2.append("text")
         .attr("text-anchor","middle");
         
     var selcur = null;
     var seld = null;
-    var textrect = null;
     
 	svg.selectAll(".axis")
 	    .data(d3.range(3))
@@ -101,9 +100,7 @@ d3.json('static/hive.json', function(error,data){
 	    	}else if(d.x == 2){
 		    	factor = .9;
                 os = outscaleD;
-	    	};
-
-            
+	    	};            
 
 	    	return os(Math.pow(inscale(d.sz),factor));
 
@@ -158,7 +155,7 @@ d3.json('static/hive.json', function(error,data){
 
                 if(selcur != null) {
                     
-                    selcur.style("fill",color("rgba(255,255,255,0.5)"));
+                    selcur.style("fill",axis_colors[seld.x]);
 
                     set_main_info(d);
                     
@@ -194,7 +191,8 @@ d3.json('static/hive.json', function(error,data){
                     
 
             })
-	    .style("fill", function(d) { return color('#00f'); });
+	    .style("fill", function(d) {
+                return axis_colors[d.x];});
 
 	function degrees(radians) {
 	  return radians / Math.PI * 180 - 90;
@@ -266,21 +264,5 @@ d3.json('static/hive.json', function(error,data){
         infotext.selectAll("tspan").remove();
 
     }
-    
-    function make_textrect() {
-        
-        if(textrect)
-            textrect.remove();
-
-        var bbox = infotext.node().getBBox();
-        var padding = 10;
-        textrect = svg.insert("rect", "text")
-            .attr("x", bbox.x - padding)
-            .attr("y", bbox.y - padding)
-            .attr("width", bbox.width + (padding*2))
-            .attr("height", bbox.height + (padding*2))
-            .style("fill", "#ccc");
-    }
-
     
 	});
