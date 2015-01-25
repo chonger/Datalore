@@ -10,7 +10,7 @@ d3.json('static/hive.json', function(error,data){
     outerRadius = 350;
 
     var axis_colors = ["rgba(118, 249, 239,0.8)","rgba(135, 56, 233,0.8)","rgba(9, 201, 255,0.8)"];
-
+    var exc = "#aaf";
     
 	var angle = d3.scale.ordinal().domain(d3.range(4)).rangePoints([0, 2 * Math.PI]),
 	    radius = d3.scale.linear().range([innerRadius, outerRadius]),
@@ -43,25 +43,15 @@ d3.json('static/hive.json', function(error,data){
     var yearL = svg.append("text").attr("dx",270).attr("dy",270).style("fill",axis_colors[1]).attr("font-size",30).text("Year");
     var deptL = svg.append("text").attr("dx",-360).attr("dy",270).style("fill",axis_colors[2]).attr("font-size",30).text("Department");
 
-
-    var pie = d3.layout.pie()
-        .sort(null)
-        .value(function(d) { return d.value; });
-
-    var arc = d3.svg.arc()
-        .outerRadius(innerRadius-100)
-        .innerRadius(0);
-
+    var iris_rad = innerRadius-100;
     var svg2 = svg.append("g");
     
-    var piechart = svg2.selectAll(".parc")
-        .data(pie([{value:1}]))
-        .enter().append("g")
-        .attr("class", "parc");
-
-    piechart.append("path")
-        .attr("d", arc)
+    svg2.append("circle")
+        .attr("r",iris_rad)
         .style("fill", "white");
+
+    svg2.append("circle").attr("fill",exc).attr("id","pupil").attr("r",0);
+    svg2.append("text").attr("dy",10).attr("fill","black").attr("text-anchor","middle").attr("id","acount").text("0").style("opacity",0).style("font-size",35);
     
     var infotext = svg2.append("text")
         .attr("text-anchor","middle");
@@ -219,63 +209,55 @@ d3.json('static/hive.json', function(error,data){
             .attr("text-anchor","middle");
 
         var label = infotext.append("tspan").attr("id","sellabel").attr("x",0).attr("dy",-120).style("fill","white").style("font-size",20).text(d.name);
-        infotext.append("tspan").attr("x",0).attr("dy",130).style("fill","black").style("font-size",35).text(d.sz);
+
+        var cur = parseInt(d3.select("#acount").text());
+
+        d3.select("#acount").transition()
+            .duration(300).style("opacity",1.0)
+            .tween("text", function() {
+                var i = d3.interpolate(cur,d.sz);
+                return function(t) {
+                    this.textContent = Math.round(i(t));
+                };
+            });
         
     }
 
     function set_extra_info(d,count) {
-
-        var exc = "#aaf"
         
-        infotext.append("tspan").attr("x",0).attr("dy",70).style("fill",exc).text(d.name).style("font-size",18).style("fill","white").attr("class","extratext");
+        infotext.append("tspan").attr("x",0).attr("dy",250).style("fill",exc).text(d.name).style("font-size",18).attr("class","extratext");
 
         console.log(seld.sz-count);
         console.log(seld);
-        var newdata = [{'value':seld.sz-count,'color':'white'},{'value':count, 'color':exc}];
 
-        svg2.selectAll(".parc").remove();
+        var irisscale = d3.scale.linear().domain([0,seld.sz]).range([30,iris_rad]);
         
-        var piechart = svg2.selectAll(".parc")
-            .data(pie(newdata))
-            .enter().append("g")
-            .attr("class", "parc");
+        d3.select("#pupil").transition().duration(200).attr("r",irisscale(count));
 
-        piechart.append("path")
-            .attr("d", arc)
-            .style("fill", function(d) {
-                    return d.data.color;
-                });
+        var cur = parseInt(d3.select("#acount").text());
 
-        piechart.append("text")
-            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-            .attr("dy", ".35em")
-            .style("text-anchor", "middle")
-            .text(function(d) { return d.data.value; });
-        
+        d3.select("#acount").transition()
+            .duration(300)
+            .tween("text", function() {
+                var i = d3.interpolate(cur,count);
+                return function(t) {
+                    this.textContent = Math.round(i(t));
+                };
+            });
+
 
     }
 
     function remove_extra() {
+        d3.select("#pupil").transition().duration(200).attr("r",0);
 
-
-        
-        svg2.selectAll(".parc").remove();
-        
-        var piechart = svg2.selectAll(".parc")
-            .data(pie([{'value':seld.sz}]))
-            .enter().append("g")
-            .attr("class", "parc");
-
-        piechart.append("path")
-            .attr("d", arc)
-            .style("fill", 'white');
 
         set_main_info(seld);
     }
 
     function remove_info() {
         infotext.selectAll("tspan").remove();
-
+        d3.select("#acount").transition().duration(300).style("opacity",0.0);
     }
     
 	});
