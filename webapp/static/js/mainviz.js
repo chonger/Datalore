@@ -314,7 +314,7 @@ d3.json('static/hive.json', function(error,data){
         console.log(seld.sz-count);
         console.log(seld);
 
-        var irisscale = d3.scale.linear().domain([0,seld.sz]).range([30,iris_rad]);
+        var irisscale = d3.scale.linear().domain([0,seld.sz]).range([0,iris_rad]);
         
         d3.select("#pupil").transition().duration(200).attr("r",irisscale(count)).text(d.name);
 
