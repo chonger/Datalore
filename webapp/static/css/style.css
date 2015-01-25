@@ -404,6 +404,18 @@ body {
     margin:15px;
 }
 
+.story{
+    padding-top: 10px;
+    margin:30px auto 50px auto;
+    width: 200px;
+    display: block;
+    height: 200px;
+}
+
+.story p{
+    margin:15px;
+}
+
 p span{
     margin-top:10px;
     text-transform: uppercase;
@@ -420,6 +432,10 @@ p span{
     border-bottom: 1px solid #fff;
 }
 
+#about2{
+    padding-bottom: 40px;
+    border-bottom: 1px solid #fff;
+}
 /*-----------------sections Charts--------------------*/
 .chart-section{
     padding-top: 100px;
