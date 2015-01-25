@@ -53,13 +53,12 @@ p {
 .navbar-brand span{
     margin: 0 0 25px;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.5;
+    color: #fff;
+    opacity: 0.8;
 }
 
-.navbar-brand{
-    width: 800px;
-}
 
 @media(min-width:767px) {
     p {
@@ -88,14 +87,12 @@ a:focus {
 
 .navbar-custom {
     margin-bottom: 0;
-    border-bottom: 1px solid rgba(255,255,255,.3);
     text-transform: uppercase;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    background-color: #000;
-}
+    font-family: DINpro,Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    height: 120px;
+    border-bottom: 1px solid #fff !important;
+    background-color: rgba(0,0,0,0.2)!important;
 
-.navbar-custom .navbar-brand {
-    font-weight: 700;
 }
 
 .navbar-custom .navbar-brand:focus {
@@ -152,7 +149,7 @@ a:focus {
     }
 
     .navbar-custom.top-nav-collapse {
-        border-bottom: 1px solid rgba(255,255,255,.3);
+        border-bottom: 1px solid #fff;
     }
 }
 
@@ -172,7 +169,7 @@ a:focus {
     transition: background .3s ease-in-out;
 }
 
-.btn-circle:hover,
+/*.btn-circle:hover,
 .btn-circle:focus {
     outline: 0;
     color: #fff;
@@ -196,7 +193,7 @@ a:focus {
     -webkit-animation-timing-function: linear;
     -moz-animation-timing-function: linear;
 }
-
+*/
 @-webkit-keyframes pulse {    
     0 {
         -webkit-transform: scale(1);
@@ -252,11 +249,6 @@ a:focus {
     height: 200px;
     margin-top: 100px;
 }
-
-@media(min-width:767px) {
-    .content-section {
-        padding-top: 250px;
-    }
 
     .download-section {
         padding: 100px 0;
@@ -359,8 +351,8 @@ body {
 	stroke:none;
 
 }
-/*-----------------sections Out team--------------------
-*/
+
+/*-----------------sections Our team--------------------*/
 .members{
     width: 100%;
     height: 200px;
@@ -400,18 +392,27 @@ body {
 /*-----------------sections Intro--------------------*/
 
 .fact{
-    margin-top: 60px;
-    height: 400px;
+    padding-top: 40px;
+    margin:30px auto 50px auto;
+    width: 200px;
+    display: block;
+    border-radius:100px;
+    border:1px solid #fff;
+    height: 200px;
+}
+.fact p{
+    margin:15px;
 }
 
 p span{
-    margin: 0 0 35px;
+    margin-top:10px;
     text-transform: uppercase;
     font-family:  DINpro, Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 300;
-    font-size: 60px;
+    font-size: 54px;
+    line-height: 60px;
     letter-spacing: 1px;
-    color: yellow;
+    color:#ebe812;
 }
 
 #about{
