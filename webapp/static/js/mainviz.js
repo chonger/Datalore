@@ -78,9 +78,9 @@ d3.json('static/hive.json', function(error,data){
      *
      */
 
-    var polL = svg.append("text").attr("dx",-150).attr("dy",-335).style("fill",axis_colors[0]).attr("font-size",30).text("License");
-    var yearL = svg.append("text").attr("dx",270).attr("dy",270).style("fill",axis_colors[1]).attr("font-size",30).text("Year");
-    var deptL = svg.append("text").attr("dx",-360).attr("dy",270).style("fill",axis_colors[2]).attr("font-size",30).text("Department");
+    var polL = svg.append("text").attr("dx",-120).attr("dy",-345).style("fill","#fff").attr("font-size",18).text("LICENSE");
+    var yearL = svg.append("text").attr("dx",290).attr("dy",220).style("fill","#fff").attr("font-size",18).text("YEAR");
+    var deptL = svg.append("text").attr("dx",-360).attr("dy",220).style("fill","#fff").attr("font-size",18).text("DEPARTMENT");
 
     var iris_rad = innerRadius-100;
     var svg2 = svg.append("g");
