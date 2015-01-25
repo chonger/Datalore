@@ -4,12 +4,51 @@ d3.json('static/hive.json', function(error,data){
     var nodes=data['nodes'];
 	var links=data['links'];
 
+    for(i in nodes) {
+
+        var n = nodes[i].name;
+
+        console.log(n);
+        if(n == 'Department of Electrical Engineering and Computer Science') {
+            nodes[i].name = "EECS";
+        }
+        if(n == 'Department of Mechanical Engineering') {
+            nodes[i].name = "Mech Eng";
+        }
+        if(n == 'Harvard University--MIT Division of Health Sciences and Technology') {
+            nodes[i].name = "Health Sci & Tech";
+        }
+        if(n == 'Computer Science and Artificial Intelligence Laboratory') {
+            nodes[i].name = "CSAIL";
+        }
+        if(n == 'Department of Biological Engineering') {
+            nodes[i].name = 'Biological Engineering';
+        }
+        if(n == 'Department of Brain and Cognitive Sciences') {
+            nodes[i].name = 'BCS';
+        }
+        if(n == 'Department of Chemistry') {
+            nodes[i].name = 'Chemistry';
+        }
+        if(n == 'Department of Biology') {
+            nodes[i].name = 'Biology';
+        }
+        if(n == 'Department of Physics') {
+            nodes[i].name = 'Physics';
+        }
+        if(n == 'Laboratory for Nuclear Science') {
+            nodes[i].name = 'Nuclear Science';
+        }
+
+    }
+
+
     var width = 720,
     height = 720,
     innerRadius = 200,
     outerRadius = 350;
 
-    var axis_colors = ["rgba(118, 249, 239,0.8)","rgba(135, 56, 233,0.8)","rgba(9, 201, 255,0.8)"];
+    var axis_colors = ["rgb(118, 249, 239)","rgb(135, 56, 233)","rgb(9, 201, 255)"];
     var exc = "#aaf";
     
 	var angle = d3.scale.ordinal().domain(d3.range(4)).rangePoints([0, 2 * Math.PI]),
@@ -90,6 +129,7 @@ d3.json('static/hive.json', function(error,data){
 	    .data(nodes)
 	  .enter().append("circle")
 	    .attr("class", "node")
+        .attr('fill-opacity','0.8')
 	    .attr("transform", function(d) { return "rotate(" + degrees(angle(d.x)) + ")"; })
 	    .attr("cx", function(d) { return radius(d.y); })
 	    .attr("r", function(d){
@@ -110,7 +150,7 @@ d3.json('static/hive.json', function(error,data){
 	    })
         .on("mouseover",function(d) {
 
-                d3.select(this).style("stroke","#fff").style("stroke-width","2");
+                d3.select(this).style("stroke","#fff").transition().duration(300).style("stroke-width","2").style('fill-opacity','1');
 
                 if(selcur != null) {
 
@@ -146,7 +186,8 @@ d3.json('static/hive.json', function(error,data){
             })
         .on("mouseout",function(d) {
 
-                d3.select(this).style("stroke-width","0");
+
+                d3.select(this).transition().duration(300).style("stroke-width","0").style('fill-opacity','0.8');
 
                 if(selcur == null) {
                     remove_info();
@@ -158,20 +199,19 @@ d3.json('static/hive.json', function(error,data){
 
                 if(selcur != null) {
                     
-                    selcur.style("fill",axis_colors[seld.x]);
-
+                
                     set_main_info(d);
                     
                     if(seld == d) {
                         svg.selectAll(".link").transition().duration(300)
-                            .style("opacity",1.0).style("stroke",color("rgba(255,255,255,0.01)"));
+                            .style("opacity","1.0").style("stroke",color("rgba(255,255,255,0.01)"));
                         selcur = null;
                         return;
                     }
                 } 
                 selcur = d3.select(this);
                 seld = d;
-                selcur.style("fill","#f00");
+                selcur.style('fill-opacity','1');
 
                 var curX = d.x;
                 var curY = d.y;
