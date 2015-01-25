@@ -111,6 +111,10 @@ d3.json('static/hive.json', function(error,data){
 	var inscaleL = d3.scale.linear().domain(d3.extent(links,function(d) {return d.count;})).range([0,1])
 	var outscaleL = d3.scale.linear().domain([0,1]).range([3,30]);
 
+    d3.select("#chart_1_info").style("width",200).style("background","#ccc")
+        .style("color","black").style("padding",7)
+        .style("opacity",0).style("position","absolute");
+    
 	svg.selectAll(".link")
 	    .data(links)
 	  .enter().append("path")
@@ -152,6 +156,13 @@ d3.json('static/hive.json', function(error,data){
 	    })
         .on("mouseover",function(d) {
 
+                if(d.x == 0) {
+                    console.log(d3.select("#chart_1_info"));
+                    d3.select("#chart_1_info").text(d.name + " - Lorem ipsum dolor sit amet, iste sapien, aliquam porttitor ipsum nulla feugiat blandit at. Cursus fermentum consectetuer metus, vulputate magna nec sit integer fringilla, quam vitae sollicitudin vivamus, sem vitae, tincidunt lacus ut. Vulputate non a netus elit. Sollicitudin mattis potenti leo.").transition().duration(300).style("opacity",1.0);
+
+                }
+                
+                
                 d3.select(this).style("stroke","#fff").transition().duration(300).style("stroke-width","2").style('fill-opacity','1');
 
                 if(selcur != null) {
@@ -188,7 +199,8 @@ d3.json('static/hive.json', function(error,data){
             })
         .on("mouseout",function(d) {
 
-
+                d3.select("#chart_1_info").transition().duration(300).style("opacity",0.0)
+                
                 d3.select(this).transition().duration(300).style("stroke-width","0").style('fill-opacity','0.8');
 
                 if(selcur == null) {
