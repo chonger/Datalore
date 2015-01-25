@@ -14,9 +14,9 @@ var width = 800,
 
 var fill = d3.scale.ordinal()
     .domain(d3.range(4))
-    .range(["#000000", "#FFDD89", "#957244", "#F26223"]);
+    .range(["rgba(255, 255, 255 ,0.7)", "rgba(118, 249, 239,0.7)", "rgba(135, 56, 233,0.7)", "rgba(9, 201, 255,0.7)", "rgba(236, 80, 183,0.7)"]);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#chart_2").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
@@ -46,11 +46,12 @@ ticks.append("line")
     .attr("y1", 0)
     .attr("x2", 5)
     .attr("y2", 0)
-    .style("stroke", "#000");
+    .style("stroke", "#fff");
 
 ticks.append("text")
     .attr("x", 8)
     .attr("dy", ".35em")
+    .attr("fill", "#fff")
     .attr("transform", function(d) { return d.angle > Math.PI ? "rotate(180)translate(-16)" : null; })
     .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
     .text(function(d) { return d.label; });
