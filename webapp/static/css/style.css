@@ -416,12 +416,14 @@ p span{
 }
 
 #about{
-    padding-bottom: 100px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #fff;
 }
 
 /*-----------------sections Charts--------------------*/
 .chart-section{
     padding-top: 100px;
+    border-top: 1px solid #fff;
 }
 
 /*-----------------sections Chart1--------------------*/
