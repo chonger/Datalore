@@ -89,7 +89,7 @@
         </div>
     </section>
 
-        <section id="about2" class="container content-section text-center">
+    <section id="about2" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <p>MIT's open access policy eliminated barriers between the public and the university's creative work, but it had another, unintended effect: For the first time, MIT had data to track scholarly activity on campus.</p>
@@ -125,16 +125,32 @@
     </section>
 
             <!-- Chart1 Section -->
-    <section class="chart" class="chart-section">
+    <section id="graph1" class="chart" class="chart-section">
         <div class="row">
             <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>
+                        Question: How are attitudes toward open access changing over time?
+
+                    </h2>
+                    <p>
+                        MIT's open access database includes a range of rights and permissions for users. Some scholars share their work with no strings or requirements attached. Others add their work to the OA database but limit how others can use or remix their scholarship.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                <p>We wanted to see whether different departments had different sharing cultures, and we were also interested in whether attitudes toward openness and sharing changed over time. Ben Swanson and Effy Zhang built an interactive hive visualization with three axes: rights granted, departments, and time. Mousing over different axes lets users visualize which departments are the most open, and how rights in the entire OA database have changed over time.
+                </p>
+                    
+                </div>
+            </div>
                 <div class="row">
                     <div id="chart_1_info"></div>
                     <div id="chart_1"></div>
                 </div>
     
                 <div class="row info">
-                    <h3>The CHART TITLE</h3>
+                    <h2>The CHART TITLE</h2>
                     <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
                 </div>
             </div>
@@ -142,9 +158,24 @@
     </section>
 
                 <!-- Chart2 Section -->
-    <section class="chart" class="chart-section">
+    <section id="graph2" class="chart" class="chart-section">
         <div class="row">
             <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                            <h1>Question: Which departments are the best collaborators?
+                            </h1>
+                            <p>
+                                The OA metadata includes information about which departments, labs and research centers at MIT contributed to a paper. 
+                            </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p>
+                            Matt Bernhardt's chord diagram illustrates which of MIT's departments have the most collaborations, and also reveals whether their interdisciplinary research is across a wide range of departments, or is focused on narrow but deep working relationships. (It's sorted based on the date of first entry in the OA database; 
+
+                        </p>
+                    </div>
+                </div>
                 <div class="row" >
                     <div id="chart_2">
 
@@ -157,6 +188,116 @@
             </div>
         </div>
     </section>
+
+    <section id="graph3" class="chart" class="chart-section">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                            <h1>Question: Does collaboration correlate to federal funding?
+                            </h1>
+                            <p>
+                                Once we were able to visualize interdisciplinary collaborations, we wondered whether it had an benefits.
+                            </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p>
+                            While causation was beyond the scope of a three-day hackathon, we pulled five years of grant funding data from the National Institutes of Health to see whether there were any correllations between collaboration and that set of funding. 
+
+                        </p>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div id="chart_3">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <h2>The CHART TITLE</h2>
+                    <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="graph4" class="chart" class="chart-section">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                            <h1>Other questions worth exploring: [COULD WE MAKE THIS GRAPHIC]?
+                            </h1>
+                            <p>
+                                 Does the gender ratio of a department's faculty correllate with interdisciplinary collaboration?
+                                    • What's the culture of co-authorship at MIT? What are least, most and median numbers for co-authorship?
+                                    • Does the size of a research center's graduate student pool correllate to faculty publishing?
+
+                            </p>
+                    </div>
+                </div>
+
+        </div>
+    </section>
+    <section id="section3" class="chart" class="chart-section">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                            <h1>What else is possible? Our findings and recommendations
+                            </h1>
+                            <p>
+                                Here's the thing about MIT's Open Access database and the way it's collected: the metadata is messy. 
+
+                            </p>
+                            <p>When a scholar, librarian, or publisher adds a paper to the repository, she is asked to fill out some basic information -- which varies depending on how she approaches the database. Author. Title. Publisher. Publication date. A description of the file. And more.</p>
+                        
+                    </div>
+                    <div class="col-lg-6" id="data_entry">
+                        
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                            <p>A cataloguer could fill out 86 pieces of metadata for each paper that's added to the repository, with the option to add more fields and information -- but none of the fields are required. 
+                            </p>
+                            <p>When we began work with the data, the Open Access repository included 14,981 papers. We found that only seven pieces of metadata existed for all 14,981 entries.
+                            </p>
+                        
+                    </div>
+                    <div class="col-lg-6" id="data_white_board">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                            <p>Incomplete data makes it difficult, sometimes impossible, to have confidence when using a database. Matt Bernhardt, the web developer who scraped the OA data for our team, scrubbed the data so that we could share the sets that were complete -- so we could share them. But we would prefer to have had more.
+                            </p>
+                    </div>
+                    <div class="col-lg-6" id="Excel">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p>In addition to incomplete data, there are inconsistent data. An author could be identified as "Smith, Jane B." in one document, and "Smith, Jane Baker" in another -- making one author appear to be two, and making two Jane Smiths appear to have a single credit each, rather than reflecting Jane Smith's real productivity as a scholar.</p>
+                        <p>And let's not forget typos. Jane Smith or Jan Smith? Yikes.</p>
+                    </div>
+                    <div class="col-lg-6">
+                    <p> We propose a few ways to improve the Open Access database's metadata:
+                        For future additions, employ:</p>
+                        <p>• Mandatory fields: 
+                            A few basic pieces of metadata should be required for each item entered into the OA database: Author(s), Title, Abstract, Rights and permissions
+                            • Controlled vocabulary for fields like MIT authors, MIT departments, rights
+                            • Consistent format for dates</p>
+                       
+                    </div>
+                </div>
+
+
+        </div>
+                
+    </section>
+
     {% include 'aboutus.html' %}
     <!-- Our Team Section -->
     

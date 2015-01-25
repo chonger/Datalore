@@ -427,15 +427,12 @@ p span{
     color:#ebe812;
 }
 
-#about{
+.chart,#about,#about2{
     padding-bottom: 40px;
     border-bottom: 1px solid #fff;
 }
 
-#about2{
-    padding-bottom: 40px;
-    border-bottom: 1px solid #fff;
-}
+
 /*-----------------sections Charts--------------------*/
 .chart-section{
     padding-top: 100px;
@@ -453,5 +450,42 @@ p span{
 #chart_2{
     width:800px;
     display: block;
+    margin: 0 auto;
+}
+
+/*-----------------sections Chart3--------------------*/
+#chart_3{
+    width:800px;
+    height: 600px;
+    background-repeat: no-repeat;
+    display: block;
+    background-image:url("../img/scatterplot.png");    
+    margin: 0 auto;
+}
+
+/*-----------------sections3--------------------*/
+#data_entry{
+    width:100%;
+    height: 400px;
+    background-repeat: no-repeat;
+    display: block;
+    background-image:url("../img/dspace_input_page.png");    
+    margin: 0 auto;
+}
+
+#data_white_board{
+    width:100%;
+    height: 400px;
+    background-repeat: no-repeat;
+    display: block;
+    background-image:url("../img/Data_white_board.jpg");    
+    margin: 0 auto;
+}
+#Excel{
+    width:100%;
+    height: 800px;
+    background-repeat: no-repeat;
+    display: block;
+    background-image:url("../img/spreadsheet.jpg");    
     margin: 0 auto;
 }
