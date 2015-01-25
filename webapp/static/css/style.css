@@ -413,7 +413,14 @@ p span{
 
 /*-----------------sections Chart1--------------------*/
 #chart_1{
-	width:100%;
-	display: block;
+    width:800px;
+    display: block;
+    margin: 0 auto;
+}
 
+/*-----------------sections Chart2--------------------*/
+#chart_2{
+    width:800px;
+    display: block;
+    margin: 0 auto;
 }
